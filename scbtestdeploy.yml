@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: simple-deploy
+  namespace: nsscbtest
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: bluegreentest
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: simple-app
+    spec:
+      containers:
+        - image: 'docker.io/opsmx11/restapp:simple-1.0'
+          imagePullPolicy: Always
+          name: restapp
+          ports:
+            - containerPort: 8081
+              name: http
+              protocol: TCP
+            - containerPort: 9091
+              name: prometheus
+              protocol: TCP
